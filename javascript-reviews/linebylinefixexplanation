@@ -1,0 +1,12 @@
+Line-by-Line Fix Explanation
+Lines 2-4: Added input validation — prevents nonsense calls
+
+Line 6: Wrapped everything in try-catch for error handling
+
+Lines 7-10: Used Promise.all with proper await on each fetch
+
+Lines 12-17: Check response.ok to catch HTTP errors (404, 500)
+
+Lines 19-21: Second Promise.all to parse JSON after confirming responses are OK
+
+Lines 24-26: Structured error logging with useful context
