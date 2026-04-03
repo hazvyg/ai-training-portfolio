@@ -1,0 +1,61 @@
+
+
+
+
+```markdown
+# Review 4: Java NullPointerException & Streams
+
+**Severity:** High  
+**Language:** Java
+
+## Original Task Given to AI
+
+> Write a method that takes a list of users, filters out inactive users, and returns their email addresses in uppercase.
+
+## Buggy AI-Generated Code
+
+```java
+// ❌ BUGGY CODE
+public List<String> getActiveUserEmails(List<User> users) {
+    List<String> emails = new ArrayList<>();
+    
+    for (User user : users) {
+        if (user.isActive()) {
+            emails.add(user.getEmail().toUpperCase());
+        }
+    }
+    
+    return emails;
+}
+
+// ✅ CORRECTED CODE
+import java.util.*;
+import java.util.stream.Collectors;
+
+public List<String> getActiveUserEmails(List<User> users) {
+    if (users == null) {
+        return Collections.emptyList();
+    }
+    
+    return users.stream()
+        .filter(Objects::nonNull)
+        .filter(User::isActive)
+        .map(User::getEmail)
+        .filter(Objects::nonNull)
+        .map(String::toUpperCase)
+        .collect(Collectors.toList());
+}
+
+// Even safer with Optional
+public List<String> getActiveUserEmailsSafe(List<User> users) {
+    return Optional.ofNullable(users)
+        .orElse(Collections.emptyList())
+        .stream()
+        .filter(Objects::nonNull)
+        .filter(user -> user.isActive())
+        .map(user -> Optional.ofNullable(user.getEmail())
+            .map(String::toUpperCase)
+            .orElse(null))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+}
