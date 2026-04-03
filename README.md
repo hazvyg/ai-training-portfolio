@@ -47,6 +47,4 @@ This portfolio contains **5 real-world code reviews** where I:
 2. Each shows: ❌ Buggy code → 🔍 Issue analysis → ✅ Fixed code
 3. Every fix includes a line-by-line explanation
 
----
 
-*Created for Outlier AI Code Reviewer application*
