@@ -1,0 +1,30 @@
+// ✅ CORRECTED CODE
+async function getUserWithPosts(userId) {
+  if (!userId || typeof userId !== 'number') {
+    throw new Error('Invalid userId: must be a number');
+  }
+  
+  try {
+    const [userResponse, postsResponse] = await Promise.all([
+      fetch(`/api/users/${userId}`),
+      fetch(`/api/users/${userId}/posts`)
+    ]);
+    
+    if (!userResponse.ok) {
+      throw new Error(`User API failed: ${userResponse.status}`);
+    }
+    if (!postsResponse.ok) {
+      throw new Error(`Posts API failed: ${postsResponse.status}`);
+    }
+    
+    const [user, posts] = await Promise.all([
+      userResponse.json(),
+      postsResponse.json()
+    ]);
+    
+    return { user, posts };
+  } catch (error) {
+    console.error(`Failed to fetch data for user ${userId}:`, error.message);
+    throw new Error(`Unable to load user data: ${error.message}`);
+  }
+}
